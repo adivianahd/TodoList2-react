@@ -8,9 +8,7 @@ function List(props) {
           <input
             type="checkbox"
             checked={e.boolean}
-            onChange={chkbox => {
-              props.onUpdate(i, { str: e.str, boolean: chkbox.target.checked });
-            }}
+            onChange={() => props.onUpdate(i)}
           />
         </li>
       )}

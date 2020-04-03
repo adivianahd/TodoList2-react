@@ -8,6 +8,7 @@ function Todolist() {
     <div>
       <input type="text" value={todo.newTodo} onChange={todo.updateNewTodo} />
       <button onClick={todo.add}>Add</button>
+      {/* <button onClick={todo.refresh}>Refresh</button> */}
       <div>
         <List data={todo.toDoList} onUpdate={todo.update} />
       </div>

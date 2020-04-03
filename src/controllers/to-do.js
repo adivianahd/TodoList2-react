@@ -1,4 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from "axios";
+
+const API_URL = "http://192.168.0.29:2000/ToDo";
+// const API_URL = "http://localhost:2000/ToDo";
 
 
 export default function () {
@@ -7,24 +11,37 @@ export default function () {
 
 	const add = () => {
 		if (newTodo === "") return;
-		setToDoList([{ str: newTodo, boolean: false }, ...toDoList]);
+		axios.post(API_URL, { str: newTodo }).then(refresh)
 		setNewTodo("");
 	}
 
-	const update = (pos, val) => {
-		const _toDoList = toDoList.concat();
-		_toDoList[pos] = val;
-		setToDoList(_toDoList);
+	const refresh = () => {
+		axios.get(API_URL).then(r => {
+			setToDoList(r.data);
+		});
+	}
+
+	const update = (pos) => {
+		const item = toDoList[pos];
+		axios.put(`${API_URL}/${item._id}/toggle`).then(refresh)
 	}
 
 	const updateNewTodo = (e) => {
 		setNewTodo(e.target.value);
 	}
 
+
+	useEffect(() => {
+		refresh();
+	}, []);
+
+
+
 	return ({
 		toDoList,
 		newTodo,
 		add,
+		refresh,
 		update,
 		updateNewTodo,
 	})
